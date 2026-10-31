@@ -1,0 +1,1 @@
+{"query":"mutation { createWorkspace { id token expiresAt } }"}

@@ -1,0 +1,1 @@
+{"query":"query Search($term:String!) { search(term:$term) { edges { node { id title excerpt revision } } } }","variables":{"term":"metri"}}

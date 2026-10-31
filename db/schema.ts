@@ -1,0 +1,4 @@
+import {sqliteTable,text,integer,index,uniqueIndex,check} from 'drizzle-orm/sqlite-core';import {sql} from 'drizzle-orm';
+export const workspaces=sqliteTable('workspaces',{id:text('id').primaryKey(),tokenHash:text('token_hash').notNull(),expiresAt:integer('expires_at').notNull()},t=>[uniqueIndex('workspace_token').on(t.tokenHash),index('workspace_expiry').on(t.expiresAt)]);
+export const documents=sqliteTable('documents',{id:text('id').primaryKey(),workspaceId:text('workspace_id').notNull().references(()=>workspaces.id,{onDelete:'cascade'}),title:text('title').notNull(),body:text('body').notNull(),revision:integer('revision').notNull().default(1),updatedAt:integer('updated_at').notNull()},t=>[index('document_workspace_cursor').on(t.workspaceId,t.id),check('revision_positive',sql`${t.revision}>0`)]);
+export const quotas=sqliteTable('quotas',{key:text('key').primaryKey(),count:integer('count').notNull(),expiresAt:integer('expires_at').notNull()});
